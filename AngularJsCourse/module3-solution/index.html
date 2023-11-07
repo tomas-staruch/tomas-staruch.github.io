@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en" ng-app="NarrowItDownApp">
+  <head>
+    <title>Shopping List Check Off</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <script src="js/angular.min.js"></script>
+    <script src="js/app.js"></script>
+    <style>
+      .emptyMessage {
+        font-weight: bold;
+        color: red;
+        font-size: 1.2em;
+      }
+      li {
+        margin-bottom: 7px;
+        font-size: 1.2em;
+      }
+      li > button {
+        margin-left: 6px;
+      }
+      button > span {
+        color: green;
+      }
+    </style>
+  </head>
+<body>
+  <div class="container">
+  <div class="row">
+    <div ng-controller="NarrowItDownController as NarrowCtrl">
+        <div>
+            <div><br><br><input type="text" ng-model="NarrowCtrl.searchFor"> &nbsp; <button class="btn btn-default" ng-click="NarrowCtrl.narrowIt(NarrowCtrl.searchFor)">Narrow It Down For Me!</button></div>
+        </div>
+        <div>&nbsp;</div>
+        <div>
+            <found-items items="NarrowCtrl.found" on-remove="NarrowCtrl.remove(index)"></found-items>
+            <div class="emptyMessage" ng-if="NarrowCtrl.found !== undefined && NarrowCtrl.found.length == 0">Nothing found</div>
+        </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
