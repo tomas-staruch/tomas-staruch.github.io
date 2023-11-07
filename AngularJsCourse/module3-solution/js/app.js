@@ -1,23 +1,31 @@
 (function() {
     'use strict';
 
-    var app = angular.module('NarrowItDownApp', []);
+    angular.module('NarrowItDownApp', [])
+        .controller('NarrowItDownController', NarrowItDownController)
+        .service('MenuSearchService', MenuSearchService)
+        .directive('foundItems', FoundItems);
 
-    app.service('MenuSearchService', function($http, $q) {
-      this.getMatchedMenuItems = function(searchTerm, found) {
-        this.getMenuItems()
+    MenuSearchService.$inject = ['$http'];
+
+    function MenuSearchService($http) {
+      this.getMatchedMenuItems = function(searchTerm) {
+            return this.getMenuItems()
               .then(function (response) {
-                  // console.log('items:' + JSON.stringify(response));
+                  var foundItems = [];
 
                   Object.keys(response).forEach(function(key) {
                       var menuItems = response[key].menu_items;
 
                       menuItems.forEach((item) => {
                           if(item.description.includes(searchTerm)) {
-                              found.push({ shortName: item.short_name, name: item.name, description: item.description});
+                              foundItems.push({ shortName: item.short_name, name: item.name, description: item.description});
                           }
                       });
+
                   });
+
+                  return foundItems;
               }, function(response) {
                   console.log('getMenuItems retrieval failed.');
         });
@@ -28,42 +36,45 @@
               return response.data;
           });
       };
-    });
+    };
 
-    app.controller('NarrowItDownController', function($scope, MenuSearchService) {
+    NarrowItDownController.$inject = ['MenuSearchService'];
+
+    function NarrowItDownController(MenuSearchService) {
       var ctrl = this;
-
       ctrl.narrowIt = function(text) {
-          ctrl.found = [];
-
           if(text === undefined || text.length === 0) {
-              console.log("text is empty");
+              ctrl.found = [];
               return;
           }
-
-          MenuSearchService.getMatchedMenuItems(text, ctrl.found);
+          MenuSearchService
+            .getMatchedMenuItems(text)
+            .then(function(items) {
+                 if (items && items.length > 0) {
+                     ctrl.found = items;
+                 } else {
+                     ctrl.found = [];
+                 }
+             });
       };
 
-      ctrl.remove = function(index) {
-          console.log("remove item on:" + index);
-          ctrl.found.splice(index, 1);
+      ctrl.remove = function(index, items) {
+          items.splice(index, 1);
       };
-    });
+    };
 
-    // see
-    // https://github.com/igogra/Single-Page-Web-Applications-with-AngularJS/blob/master/Module3/js/app.js
-    // https://stackoverflow.com/questions/17454782/angularjs-uncaught-referenceerror-controller-is-not-defined-from-module
-    app.directive('foundItems', function() {
+    function FoundItems() {
         return {
+            restrict: 'E',
             scope: {
                 items: '<',
                 onRemove: '&'
             },
             templateUrl: 'foundItems.html',
-            controller: 'NarrowItDownController',
+            controller: NarrowItDownController,
             controllerAs: 'ctrl',
             bindToController: true
         };
-    });
+    };
 
 })();

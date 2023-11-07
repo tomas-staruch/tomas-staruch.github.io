@@ -1,1 +1,1 @@
-<div ng-repeat="item in items track by $index">{{item.shortName}}, {{item.name}}, {{item.description}} <button class="btn btn-default" ng-click="ctrl.remove({index: $index})">Don't want this one!</button></div>
+<div ng-repeat="item in ctrl.items track by $index">{{item.shortName}}, {{item.name}}, {{item.description}} <button class="btn btn-default" ng-click="ctrl.remove($index, ctrl.items)">Don't want this one!</button></div>
