@@ -9,7 +9,7 @@
         <p>Phone: {{myInfoCtrl.user.phoneNumber}}</p>
         <p>Favorite dish: {{myInfoCtrl.user.favoriteDishDetails.name}}</p>
         <p>Favorite dish description: {{myInfoCtrl.user.favoriteDishDetails.description}}</p>
-        <img class="img-responsive" ng-src="/images/menu/{{myInfoCtrl.user.favoriteDishUrl.short_name}}/{{myInfoCtrl.user.favoriteDish}}.jpg" alt="{{myInfoCtrl.user.favoriteDishDetails.name}}" />
+        <img class="img-responsive" ng-src="https://tomas-staruch.github.io/AngularJsCourse/module5-solution/images/menu/{{myInfoCtrl.user.favoriteDishUrl.short_name}}/{{myInfoCtrl.user.favoriteDish}}.jpg" alt="{{myInfoCtrl.user.favoriteDishDetails.name}}" />
     </div>
 
     <span class="text-warning" ng-show="!myInfoCtrl.isUserSignedUp">Not Signed Up Yet. <a href="#/signup">Sign up Now!</a></span>
