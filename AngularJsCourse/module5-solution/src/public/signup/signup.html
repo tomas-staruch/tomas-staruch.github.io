@@ -1,0 +1,36 @@
+<div class="container">
+    <h2 class="text-center">Sign Up</h2>
+    <form name="signupForm" role="form" id="signup-form" ng-submit="signupCtrl.signup(user)" novalidate>
+    <div class="form-group">
+        <div class="form-group">
+            <label for="first-name">Last name</label>
+            <input type="text" class="form-control" id="first-name" placeholder="First name" ng-model="user.firstName" ng-model-options="{ updateOn: 'blur' }" required>
+        </div>
+
+        <div class="form-group">
+            <label for="last-name">Last name</label>
+            <input type="text" class="form-control" id="last-name" placeholder="Last name" ng-model="user.lastName" ng-model-options="{ updateOn: 'blur' }" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter email" ng-model="user.emailAddress" ng-model-options="{ updateOn: 'blur' }" required>
+        </div>
+
+        <div class="form-group">
+            <label for="phone-number">Phone number</label>
+            <input type="text" class="form-control" name="phoneNumber" id="phone-number" placeholder="Phone number" ng-model="user.phoneNumber" ng-model-options="{ updateOn: 'blur' }" ng-minlength="6"  ng-maxlength="10" ng-pattern="/^\d{6,10}$/" required>
+            <span ng-show="signupForm.phoneNumber.$error.pattern">Not a valid number!</span>
+        </div>
+
+        <div class="form-group">
+            <label for="favorite-dish">Favorite dish</label>
+            <input type="text" class="form-control" id="favorite-dish" placeholder="Favorite dish" ng-model="user.favoriteDish" ng-model-options="{ updateOn: 'blur' }" required>
+            <span ng-show="signupCtrl.noDishNumberError" class="help-block text-warning">No such menu number exists</span>
+        </div>
+
+        <button type="submit" class="btn btn-primary" ng-model="submitButton" data-ng-disabled="signupForm.$invalid">Submit</button>
+        <span class="text-success" ng-show="signupCtrl.saveSuccess">Your information has been saved</span>
+    </div>
+    </form>
+</div>
